@@ -76,4 +76,6 @@ func main() {
 		log.Println("Server is stopped running due to timeout !")
 		s.Stop()
 	}
+
+	//make more security and auth
 }

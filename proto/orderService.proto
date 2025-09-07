@@ -8,7 +8,7 @@ option go_package = "./proto;orderpb";
 
 service OrderService {
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {}
-  rpc GetOrderByUserId(GetOrderByUserIdRequest) returns (GetOrderByUserIdResponse) {}
+  rpc GetOrdersByUserId(GetOrdersByUserIdRequest) returns (GetOrdersByUserIdResponse) {}
   rpc GetItemsOfOrderById(GetItemsOfOrderByIdRequest) returns (GetItemsOfOrderByIdResponse) {}
 }
 
@@ -20,18 +20,19 @@ message GetItemsOfOrderByIdResponse {
   repeated int32 listOfProductsId = 1;
 }
 
-message GetOrderByUserIdRequest {
+message GetOrdersByUserIdRequest {
   int32 user_id = 1;
 }
 
-message GetOrderByUserIdResponse {
-  Order order = 1;
+message GetOrdersByUserIdResponse {
+  repeated Order order = 1;
 }
 
 message CreateOrderRequest {
-  int32 id = 1;
+  int32 UserId = 1;
   int32 cart_id = 2;
   string TypeOfTransportation = 3;
+  string Address = 4;
 }
 
 message CreateOrderResponse {
@@ -41,8 +42,9 @@ message CreateOrderResponse {
 message Order {
   int32 id = 1;
   int32 cart_id = 2;
-  int32 create_at = 3;
-  int32 delivered_at = 4;
+  google.protobuf.Timestamp create_at = 3;
+  google.protobuf.Timestamp delivered_at = 4;
   string transport_type = 5;
   int32 user_id = 6;
+  string address = 7;
 }

@@ -30,11 +30,10 @@ func (orderStore *OrderStore) CreateOrder(UserId int, CartId int, TransportType 
 		return DeliveredAt, err
 	}
 	var OrderId int
-	err = orderStore.CreateOrderStmt.QueryRowxContext(ctx, CartId, time.Now(), DeliveredAt, TransportType, UserId, Address).Scan(&OrderId)
+	err = orderStore.CreateOrderStmt.QueryRowxContext(ctx, CartId, time.Now().UTC(), DeliveredAt, TransportType, UserId, Address).Scan(&OrderId)
 	if err != nil {
 		return DeliveredAt, err
 	}
-
 	r, err := CartClient.GetItemsOfCartById(ctx, &cpb.GetItemsOfCartByIdRequest{Id: int32(CartId)})
 	if err != nil {
 		log.Println("Error during get cart items from CartService")
@@ -55,14 +54,13 @@ func (orderStore *OrderStore) CreateOrder(UserId int, CartId int, TransportType 
 	return DeliveredAt, nil
 }
 
-func (orderStore *OrderStore) GetOrderByUserId(UserId int) (models.Order, error) {
+func (orderStore *OrderStore) GetOrderByUserId(UserId int) ([]models.Order, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
-	var Order models.Order
-	if err := orderStore.GetOrderByUserIdStmt.GetContext(ctx, &Order, UserId); err != nil {
+	var Order []models.Order
+	if err := orderStore.GetOrderByUserIdStmt.SelectContext(ctx, &Order, UserId); err != nil {
 		return Order, err
 	}
-
 	return Order, nil
 }
 
@@ -92,13 +90,13 @@ func (orderStore *OrderStore) PutItemsToOrder(orderId int, productIds []int) err
 func DefineTimeOfDelivery(TransportType string) (time.Time, error) {
 	if TransportType == "Ordinary" {
 		log.Println("Ordinary was")
-		return time.Now().Add(24 * time.Hour * 4), nil //4 days
+		return time.Now().UTC().Add(24 * time.Hour * 4), nil //4 days
 	} else if TransportType == "Medium" {
 		log.Println("Medium was")
-		return time.Now().Add(24 * time.Hour * 2), nil //2 days
+		return time.Now().UTC().Add(24 * time.Hour * 2), nil //2 days
 	} else if TransportType == "Fastest" {
 		log.Println("fastest was")
-		return time.Now().Add(24 * time.Hour), nil
+		return time.Now().UTC().Add(24 * time.Hour), nil //1 day
 	} else {
 		log.Println("Bag")
 		return time.Now(), errors.New("Invalid TransportType")

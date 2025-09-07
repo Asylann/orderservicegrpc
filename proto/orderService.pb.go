@@ -110,27 +110,27 @@ func (x *GetItemsOfOrderByIdResponse) GetListOfProductsId() []int32 {
 	return nil
 }
 
-type GetOrderByUserIdRequest struct {
+type GetOrdersByUserIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int32                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetOrderByUserIdRequest) Reset() {
-	*x = GetOrderByUserIdRequest{}
+func (x *GetOrdersByUserIdRequest) Reset() {
+	*x = GetOrdersByUserIdRequest{}
 	mi := &file_proto_orderService_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetOrderByUserIdRequest) String() string {
+func (x *GetOrdersByUserIdRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetOrderByUserIdRequest) ProtoMessage() {}
+func (*GetOrdersByUserIdRequest) ProtoMessage() {}
 
-func (x *GetOrderByUserIdRequest) ProtoReflect() protoreflect.Message {
+func (x *GetOrdersByUserIdRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_orderService_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -142,39 +142,39 @@ func (x *GetOrderByUserIdRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetOrderByUserIdRequest.ProtoReflect.Descriptor instead.
-func (*GetOrderByUserIdRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetOrdersByUserIdRequest.ProtoReflect.Descriptor instead.
+func (*GetOrdersByUserIdRequest) Descriptor() ([]byte, []int) {
 	return file_proto_orderService_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetOrderByUserIdRequest) GetUserId() int32 {
+func (x *GetOrdersByUserIdRequest) GetUserId() int32 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
 }
 
-type GetOrderByUserIdResponse struct {
+type GetOrdersByUserIdResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Order         *Order                 `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	Order         []*Order               `protobuf:"bytes,1,rep,name=order,proto3" json:"order,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetOrderByUserIdResponse) Reset() {
-	*x = GetOrderByUserIdResponse{}
+func (x *GetOrdersByUserIdResponse) Reset() {
+	*x = GetOrdersByUserIdResponse{}
 	mi := &file_proto_orderService_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetOrderByUserIdResponse) String() string {
+func (x *GetOrdersByUserIdResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetOrderByUserIdResponse) ProtoMessage() {}
+func (*GetOrdersByUserIdResponse) ProtoMessage() {}
 
-func (x *GetOrderByUserIdResponse) ProtoReflect() protoreflect.Message {
+func (x *GetOrdersByUserIdResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_orderService_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -186,12 +186,12 @@ func (x *GetOrderByUserIdResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetOrderByUserIdResponse.ProtoReflect.Descriptor instead.
-func (*GetOrderByUserIdResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetOrdersByUserIdResponse.ProtoReflect.Descriptor instead.
+func (*GetOrdersByUserIdResponse) Descriptor() ([]byte, []int) {
 	return file_proto_orderService_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetOrderByUserIdResponse) GetOrder() *Order {
+func (x *GetOrdersByUserIdResponse) GetOrder() []*Order {
 	if x != nil {
 		return x.Order
 	}
@@ -200,9 +200,10 @@ func (x *GetOrderByUserIdResponse) GetOrder() *Order {
 
 type CreateOrderRequest struct {
 	state                protoimpl.MessageState `protogen:"open.v1"`
-	Id                   int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId               int32                  `protobuf:"varint,1,opt,name=UserId,proto3" json:"UserId,omitempty"`
 	CartId               int32                  `protobuf:"varint,2,opt,name=cart_id,json=cartId,proto3" json:"cart_id,omitempty"`
 	TypeOfTransportation string                 `protobuf:"bytes,3,opt,name=TypeOfTransportation,proto3" json:"TypeOfTransportation,omitempty"`
+	Address              string                 `protobuf:"bytes,4,opt,name=Address,proto3" json:"Address,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -237,9 +238,9 @@ func (*CreateOrderRequest) Descriptor() ([]byte, []int) {
 	return file_proto_orderService_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateOrderRequest) GetId() int32 {
+func (x *CreateOrderRequest) GetUserId() int32 {
 	if x != nil {
-		return x.Id
+		return x.UserId
 	}
 	return 0
 }
@@ -254,6 +255,13 @@ func (x *CreateOrderRequest) GetCartId() int32 {
 func (x *CreateOrderRequest) GetTypeOfTransportation() string {
 	if x != nil {
 		return x.TypeOfTransportation
+	}
+	return ""
+}
+
+func (x *CreateOrderRequest) GetAddress() string {
+	if x != nil {
+		return x.Address
 	}
 	return ""
 }
@@ -306,10 +314,11 @@ type Order struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	CartId        int32                  `protobuf:"varint,2,opt,name=cart_id,json=cartId,proto3" json:"cart_id,omitempty"`
-	CreateAt      int32                  `protobuf:"varint,3,opt,name=create_at,json=createAt,proto3" json:"create_at,omitempty"`
-	DeliveredAt   int32                  `protobuf:"varint,4,opt,name=delivered_at,json=deliveredAt,proto3" json:"delivered_at,omitempty"`
+	CreateAt      *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_at,json=createAt,proto3" json:"create_at,omitempty"`
+	DeliveredAt   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=delivered_at,json=deliveredAt,proto3" json:"delivered_at,omitempty"`
 	TransportType string                 `protobuf:"bytes,5,opt,name=transport_type,json=transportType,proto3" json:"transport_type,omitempty"`
 	UserId        int32                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Address       string                 `protobuf:"bytes,7,opt,name=address,proto3" json:"address,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -358,18 +367,18 @@ func (x *Order) GetCartId() int32 {
 	return 0
 }
 
-func (x *Order) GetCreateAt() int32 {
+func (x *Order) GetCreateAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreateAt
 	}
-	return 0
+	return nil
 }
 
-func (x *Order) GetDeliveredAt() int32 {
+func (x *Order) GetDeliveredAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.DeliveredAt
 	}
-	return 0
+	return nil
 }
 
 func (x *Order) GetTransportType() string {
@@ -386,6 +395,13 @@ func (x *Order) GetUserId() int32 {
 	return 0
 }
 
+func (x *Order) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
 var File_proto_orderService_proto protoreflect.FileDescriptor
 
 const file_proto_orderService_proto_rawDesc = "" +
@@ -394,27 +410,29 @@ const file_proto_orderService_proto_rawDesc = "" +
 	"\x1aGetItemsOfOrderByIdRequest\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\x05R\aorderId\"I\n" +
 	"\x1bGetItemsOfOrderByIdResponse\x12*\n" +
-	"\x10listOfProductsId\x18\x01 \x03(\x05R\x10listOfProductsId\"2\n" +
-	"\x17GetOrderByUserIdRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x05R\x06userId\">\n" +
-	"\x18GetOrderByUserIdResponse\x12\"\n" +
-	"\x05order\x18\x01 \x01(\v2\f.proto.OrderR\x05order\"q\n" +
-	"\x12CreateOrderRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x17\n" +
+	"\x10listOfProductsId\x18\x01 \x03(\x05R\x10listOfProductsId\"3\n" +
+	"\x18GetOrdersByUserIdRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x05R\x06userId\"?\n" +
+	"\x19GetOrdersByUserIdResponse\x12\"\n" +
+	"\x05order\x18\x01 \x03(\v2\f.proto.OrderR\x05order\"\x93\x01\n" +
+	"\x12CreateOrderRequest\x12\x16\n" +
+	"\x06UserId\x18\x01 \x01(\x05R\x06UserId\x12\x17\n" +
 	"\acart_id\x18\x02 \x01(\x05R\x06cartId\x122\n" +
-	"\x14TypeOfTransportation\x18\x03 \x01(\tR\x14TypeOfTransportation\"T\n" +
+	"\x14TypeOfTransportation\x18\x03 \x01(\tR\x14TypeOfTransportation\x12\x18\n" +
+	"\aAddress\x18\x04 \x01(\tR\aAddress\"T\n" +
 	"\x13CreateOrderResponse\x12=\n" +
-	"\fdelivered_at\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vdeliveredAt\"\xb0\x01\n" +
+	"\fdelivered_at\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\vdeliveredAt\"\x82\x02\n" +
 	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x17\n" +
-	"\acart_id\x18\x02 \x01(\x05R\x06cartId\x12\x1b\n" +
-	"\tcreate_at\x18\x03 \x01(\x05R\bcreateAt\x12!\n" +
-	"\fdelivered_at\x18\x04 \x01(\x05R\vdeliveredAt\x12%\n" +
+	"\acart_id\x18\x02 \x01(\x05R\x06cartId\x127\n" +
+	"\tcreate_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\bcreateAt\x12=\n" +
+	"\fdelivered_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\vdeliveredAt\x12%\n" +
 	"\x0etransport_type\x18\x05 \x01(\tR\rtransportType\x12\x17\n" +
-	"\auser_id\x18\x06 \x01(\x05R\x06userId2\x8d\x02\n" +
+	"\auser_id\x18\x06 \x01(\x05R\x06userId\x12\x18\n" +
+	"\aaddress\x18\a \x01(\tR\aaddress2\x90\x02\n" +
 	"\fOrderService\x12F\n" +
-	"\vCreateOrder\x12\x19.proto.CreateOrderRequest\x1a\x1a.proto.CreateOrderResponse\"\x00\x12U\n" +
-	"\x10GetOrderByUserId\x12\x1e.proto.GetOrderByUserIdRequest\x1a\x1f.proto.GetOrderByUserIdResponse\"\x00\x12^\n" +
+	"\vCreateOrder\x12\x19.proto.CreateOrderRequest\x1a\x1a.proto.CreateOrderResponse\"\x00\x12X\n" +
+	"\x11GetOrdersByUserId\x12\x1f.proto.GetOrdersByUserIdRequest\x1a .proto.GetOrdersByUserIdResponse\"\x00\x12^\n" +
 	"\x13GetItemsOfOrderById\x12!.proto.GetItemsOfOrderByIdRequest\x1a\".proto.GetItemsOfOrderByIdResponse\"\x00B\x11Z\x0f./proto;orderpbb\x06proto3"
 
 var (
@@ -433,27 +451,29 @@ var file_proto_orderService_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_proto_orderService_proto_goTypes = []any{
 	(*GetItemsOfOrderByIdRequest)(nil),  // 0: proto.GetItemsOfOrderByIdRequest
 	(*GetItemsOfOrderByIdResponse)(nil), // 1: proto.GetItemsOfOrderByIdResponse
-	(*GetOrderByUserIdRequest)(nil),     // 2: proto.GetOrderByUserIdRequest
-	(*GetOrderByUserIdResponse)(nil),    // 3: proto.GetOrderByUserIdResponse
+	(*GetOrdersByUserIdRequest)(nil),    // 2: proto.GetOrdersByUserIdRequest
+	(*GetOrdersByUserIdResponse)(nil),   // 3: proto.GetOrdersByUserIdResponse
 	(*CreateOrderRequest)(nil),          // 4: proto.CreateOrderRequest
 	(*CreateOrderResponse)(nil),         // 5: proto.CreateOrderResponse
 	(*Order)(nil),                       // 6: proto.Order
 	(*timestamppb.Timestamp)(nil),       // 7: google.protobuf.Timestamp
 }
 var file_proto_orderService_proto_depIdxs = []int32{
-	6, // 0: proto.GetOrderByUserIdResponse.order:type_name -> proto.Order
+	6, // 0: proto.GetOrdersByUserIdResponse.order:type_name -> proto.Order
 	7, // 1: proto.CreateOrderResponse.delivered_at:type_name -> google.protobuf.Timestamp
-	4, // 2: proto.OrderService.CreateOrder:input_type -> proto.CreateOrderRequest
-	2, // 3: proto.OrderService.GetOrderByUserId:input_type -> proto.GetOrderByUserIdRequest
-	0, // 4: proto.OrderService.GetItemsOfOrderById:input_type -> proto.GetItemsOfOrderByIdRequest
-	5, // 5: proto.OrderService.CreateOrder:output_type -> proto.CreateOrderResponse
-	3, // 6: proto.OrderService.GetOrderByUserId:output_type -> proto.GetOrderByUserIdResponse
-	1, // 7: proto.OrderService.GetItemsOfOrderById:output_type -> proto.GetItemsOfOrderByIdResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	7, // 2: proto.Order.create_at:type_name -> google.protobuf.Timestamp
+	7, // 3: proto.Order.delivered_at:type_name -> google.protobuf.Timestamp
+	4, // 4: proto.OrderService.CreateOrder:input_type -> proto.CreateOrderRequest
+	2, // 5: proto.OrderService.GetOrdersByUserId:input_type -> proto.GetOrdersByUserIdRequest
+	0, // 6: proto.OrderService.GetItemsOfOrderById:input_type -> proto.GetItemsOfOrderByIdRequest
+	5, // 7: proto.OrderService.CreateOrder:output_type -> proto.CreateOrderResponse
+	3, // 8: proto.OrderService.GetOrdersByUserId:output_type -> proto.GetOrdersByUserIdResponse
+	1, // 9: proto.OrderService.GetItemsOfOrderById:output_type -> proto.GetItemsOfOrderByIdResponse
+	7, // [7:10] is the sub-list for method output_type
+	4, // [4:7] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_proto_orderService_proto_init() }

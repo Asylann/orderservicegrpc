@@ -24,22 +24,28 @@ func (server *Server) CreateOrder(ctx context.Context, req *pb.CreateOrderReques
 	return &pb.CreateOrderResponse{DeliveredAt: timestamppb.New(deliveredAt)}, nil
 }
 
-func (server *Server) GetOrderByUserId(ctx context.Context, req *pb.GetOrderByUserIdRequest) (*pb.GetOrderByUserIdResponse, error) {
-	order, err := server.OrderStore.GetOrderByUserId(int(req.UserId))
+func (server *Server) GetOrdersByUserId(ctx context.Context, req *pb.GetOrdersByUserIdRequest) (*pb.GetOrdersByUserIdResponse, error) {
+	log.Println("Was called!")
+	orders, err := server.OrderStore.GetOrderByUserId(int(req.UserId))
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
-	return &pb.GetOrderByUserIdResponse{Order: &pb.Order{
-		UserId:        int32(order.UserId),
-		CartId:        int32(order.CartId),
-		CreateAt:      timestamppb.New(order.CreateAt),
-		DeliveredAt:   timestamppb.New(order.DeliveredAt),
-		Id:            int32(order.Id),
-		TransportType: order.TransportType,
-		Address:       order.Address,
-	}}, nil
+	var ValidOrders []*pb.Order
+	for _, v := range orders {
+		ValidOrders = append(ValidOrders, &pb.Order{
+			UserId:        int32(v.UserId),
+			CartId:        int32(v.CartId),
+			Id:            int32(v.Id),
+			Address:       v.Address,
+			TransportType: v.TransportType,
+			CreateAt:      timestamppb.New(v.CreateAt),
+			DeliveredAt:   timestamppb.New(v.DeliveredAt),
+		})
+	}
+	log.Printf("Orders by id=%v was sent", orders)
+	return &pb.GetOrdersByUserIdResponse{Order: ValidOrders}, nil
 }
 
 func (server *Server) GetItemsOfOrderById(ctx context.Context, req *pb.GetItemsOfOrderByIdRequest) (*pb.GetItemsOfOrderByIdResponse, error) {
