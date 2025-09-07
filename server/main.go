@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	pb "github.com/Asylann/OrderService/proto"
-	"github.com/Asylann/OrderService/server/internal/config"
-	"github.com/Asylann/OrderService/server/internal/models"
-	"github.com/Asylann/OrderService/server/internal/repository"
+	pb "github.com/Asylann/OrderServiceGRPC/proto"
+	"github.com/Asylann/OrderServiceGRPC/server/internal/config"
+	"github.com/Asylann/OrderServiceGRPC/server/internal/repository"
+	"github.com/Asylann/OrderServiceGRPC/server/internal/service"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -15,6 +16,9 @@ import (
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("No .env variables are loaded")
+	}
 	cfg, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalf("Error during load cfg: %s", err.Error())
@@ -29,11 +33,19 @@ func main() {
 
 	var l net.Listener
 	if l, err = net.Listen("tcp", ":"+cfg.Port); err != nil {
-		log.Fatal("Can not run TCP")
+		log.Fatal("Can not run TCP", err.Error())
 		return
 	}
 
-	srv := models.Server{}
+	orderStore, err := repository.NewOrderStore()
+	if err != nil {
+		log.Fatalf("Error during init orderStore:%s", err.Error())
+		return
+	}
+
+	repository.InitCartServiceConn()
+
+	srv := &service.Server{OrderStore: orderStore}
 
 	s := grpc.NewServer()
 	pb.RegisterOrderServiceServer(s, srv)
