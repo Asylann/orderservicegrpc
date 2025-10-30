@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
-	cpb "github.com/Asylann/gRPC_Demo/proto"
+	cpb "github.com/Asylann/grpc-demo/proto"
 	"github.com/Asylann/orderservicegrpc/server/internal/models"
 	"google.golang.org/grpc"
 	"log"
