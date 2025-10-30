@@ -37,6 +37,7 @@ message CreateOrderRequest {
 
 message CreateOrderResponse {
  google.protobuf.Timestamp delivered_at = 1;
+ int64 order_id = 2;
 }
 
 message Order {

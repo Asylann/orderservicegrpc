@@ -3,7 +3,7 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"github.com/Asylann/OrderServiceGRPC/server/internal/config"
+	"github.com/Asylann/orderservicegrpc/server/internal/config"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"time"

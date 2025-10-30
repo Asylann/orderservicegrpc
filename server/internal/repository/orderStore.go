@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 	"errors"
-	"github.com/Asylann/OrderServiceGRPC/server/internal/models"
 	cpb "github.com/Asylann/gRPC_Demo/proto"
+	"github.com/Asylann/orderservicegrpc/server/internal/models"
 	"google.golang.org/grpc"
 	"log"
 	"time"
@@ -21,23 +21,23 @@ func InitCartServiceConn() {
 	CartClient = cpb.NewCartServiceClient(conn)
 }
 
-func (orderStore *OrderStore) CreateOrder(UserId int, CartId int, TransportType string, Address string) (time.Time, error) {
+func (orderStore *OrderStore) CreateOrder(UserId int, CartId int, TransportType string, Address string) (time.Time, int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	DeliveredAt, err := DefineTimeOfDelivery(TransportType)
 	if err != nil {
 		log.Println(err.Error())
-		return DeliveredAt, err
+		return DeliveredAt, 0, err
 	}
 	var OrderId int
 	err = orderStore.CreateOrderStmt.QueryRowxContext(ctx, CartId, time.Now().UTC(), DeliveredAt, TransportType, UserId, Address).Scan(&OrderId)
 	if err != nil {
-		return DeliveredAt, err
+		return DeliveredAt, OrderId, err
 	}
 	r, err := CartClient.GetItemsOfCartById(ctx, &cpb.GetItemsOfCartByIdRequest{Id: int32(CartId)})
 	if err != nil {
 		log.Println("Error during get cart items from CartService")
-		return DeliveredAt, err
+		return DeliveredAt, OrderId, err
 	}
 	ProductsIds := r.GetProduct()
 	var ValidProducts_Id []int
@@ -48,10 +48,10 @@ func (orderStore *OrderStore) CreateOrder(UserId int, CartId int, TransportType 
 	err = orderStore.PutItemsToOrder(OrderId, ValidProducts_Id)
 	if err != nil {
 		log.Printf("Cant put items to Order: %s \n", err.Error())
-		return DeliveredAt, err
+		return DeliveredAt, OrderId, err
 	}
 
-	return DeliveredAt, nil
+	return DeliveredAt, OrderId, nil
 }
 
 func (orderStore *OrderStore) GetOrderByUserId(UserId int) ([]models.Order, error) {

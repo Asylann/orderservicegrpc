@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	pb "github.com/Asylann/OrderServiceGRPC/proto"
-	"github.com/Asylann/OrderServiceGRPC/server/internal/config"
-	"github.com/Asylann/OrderServiceGRPC/server/internal/repository"
-	"github.com/Asylann/OrderServiceGRPC/server/internal/service"
+	pb "github.com/Asylann/orderservicegrpc/proto"
+	"github.com/Asylann/orderservicegrpc/server/internal/config"
+	"github.com/Asylann/orderservicegrpc/server/internal/repository"
+	"github.com/Asylann/orderservicegrpc/server/internal/service"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"log"
@@ -47,7 +47,10 @@ func main() {
 
 	srv := &service.Server{OrderStore: orderStore}
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(
+		grpc.MaxRecvMsgSize(1024*1024*50), // 50MB
+		grpc.MaxSendMsgSize(1024*1024*50), // 50MB
+	)
 	pb.RegisterOrderServiceServer(s, srv)
 
 	quit, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)

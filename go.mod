@@ -1,8 +1,9 @@
-module github.com/Asylann/OrderServiceGRPC
+module github.com/Asylann/orderservicegrpc
 
 go 1.24
 
 require (
+	github.com/Asylann/OrderServiceGRPC v0.1.0
 	github.com/Asylann/gRPC_Demo v0.0.0
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/joho/godotenv v1.5.1

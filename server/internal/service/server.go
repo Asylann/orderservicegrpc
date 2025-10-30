@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	pb "github.com/Asylann/OrderServiceGRPC/proto"
-	"github.com/Asylann/OrderServiceGRPC/server/internal/repository"
+	pb "github.com/Asylann/orderservicegrpc/proto"
+	"github.com/Asylann/orderservicegrpc/server/internal/repository"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
 )
@@ -14,14 +14,14 @@ type Server struct {
 }
 
 func (server *Server) CreateOrder(ctx context.Context, req *pb.CreateOrderRequest) (*pb.CreateOrderResponse, error) {
-	deliveredAt, err := server.OrderStore.CreateOrder(int(req.UserId), int(req.CartId), req.TypeOfTransportation, req.Address)
+	deliveredAt, OrderId, err := server.OrderStore.CreateOrder(int(req.UserId), int(req.CartId), req.TypeOfTransportation, req.Address)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
 	log.Printf("Order was create by userId=%s", req.UserId)
-	return &pb.CreateOrderResponse{DeliveredAt: timestamppb.New(deliveredAt)}, nil
+	return &pb.CreateOrderResponse{DeliveredAt: timestamppb.New(deliveredAt), OrderId: int64(OrderId)}, nil
 }
 
 func (server *Server) GetOrdersByUserId(ctx context.Context, req *pb.GetOrdersByUserIdRequest) (*pb.GetOrdersByUserIdResponse, error) {

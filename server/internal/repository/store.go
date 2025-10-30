@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/Asylann/OrderServiceGRPC/server/internal/models"
+	"github.com/Asylann/orderservicegrpc/server/internal/models"
 	"github.com/jmoiron/sqlx"
 	"time"
 )
