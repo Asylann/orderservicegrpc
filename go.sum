@@ -3,6 +3,8 @@ filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4
 github.com/Asylann/OrderServiceGRPC v0.1.0 h1:x2Qj8sXw6GFIG9BPERBF3UnmvkVyXivau8M/DQjSZSU=
 github.com/Asylann/OrderServiceGRPC v0.1.0/go.mod h1:i8t0HiTnzRYkIEfu2TGCatclF7rACKI+tlpBC5S96fY=
 github.com/Asylann/grpc-demo v0.3.0/go.mod h1:WWIwsTVW7pEq2p+tOy5u6xKqixL9k6xvEiHGLj7nRBk=
+github.com/Asylann/grpc-demo v0.5.0 h1:+yPs83gVUz0dWfNsFDrmMl9ww9f6HpIaJ8ZBry3UkaQ=
+github.com/Asylann/grpc-demo v0.5.0/go.mod h1:WWIwsTVW7pEq2p+tOy5u6xKqixL9k6xvEiHGLj7nRBk=
 github.com/go-logr/logr v1.4.3 h1:CjnDlHq8ikf6E492q6eKboGOC0T8CDaOvkHCIg8idEI=
 github.com/go-logr/logr v1.4.3/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
 github.com/go-logr/stdr v1.2.2 h1:hSWxHoqTgW2S2qGc0LTAI563KZ5YKYRhT3MFKZMbjag=

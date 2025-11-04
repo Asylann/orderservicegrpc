@@ -1,0 +1,31 @@
+services:
+  order_db:
+    image: postgres:17
+    container_name: order_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: order_db
+    volumes:
+      - order_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d order_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sportwear-net
+  order_service:
+    build: .
+    container_name: order_service
+    depends_on:
+      order_db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "50052:50052"
+    networks:
+      - sportwear-net
+volumes:
+  order_db_data:
